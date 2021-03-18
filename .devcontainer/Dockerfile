@@ -26,7 +26,7 @@ RUN python3 -m pip install --user pipx \
 RUN curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
   && sudo apt-get install -y nodejs
 
-# Install ganache and yarn
+# Install ganache
 RUN npm install -g ganache-cli@6.12.1 
 
 # [Optional] Uncomment this section to install additional packages.
