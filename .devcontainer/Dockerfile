@@ -7,6 +7,7 @@
 # To fully customize the contents of this image, use the following Dockerfile instead:
 # https://github.com/microsoft/vscode-dev-containers/tree/v0.126.0/containers/python-3/.devcontainer/base.Dockerfile
 ARG VARIANT="3"
+
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
 # [Optional] If your requirements rarely change, uncomment this section to add them to the image.
@@ -15,9 +16,23 @@ FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
 
+# Install eth-brownie
+RUN python3 -m pip install --user pipx \
+  && python3 -m pipx ensurepath \
+  && pipx install eth-brownie \
+  && python3 -m pip install black
+
+# Install the specified version of nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
+  && sudo apt-get install -y nodejs
+
+# Install ganache and yarn
+RUN npm install -g ganache-cli@6.12.1 
+
 # [Optional] Uncomment this section to install additional packages.
 #
-# RUN apt-get update \
+RUN apt-get update \
+  && apt-get -y install git
 #     && export DEBIAN_FRONTEND=noninteractive \
 #    && apt-get -y install --no-install-recommends <your-package-list-here>
 
